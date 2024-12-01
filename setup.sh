@@ -11,17 +11,15 @@ function get_config_value() {
 }
 
 # Load configuration from settings.conf
-GIT_SERVICE=$(get_config_value "git" "service")
-GIT_API_TOKEN=$(get_config_value "git" "api_token")
-REPO_OWNER=$(get_config_value "git" "repo_owner")
-REPO_NAME=$(get_config_value "git" "repo_name")
-DOMAIN=$(get_config_value "server" "domain")
-USER=$(get_config_value "server" "user")
-PORT=$(get_config_value "server" "port")
-ENABLE_IPV6=$(get_config_value "server" "enable_ipv6")
-INSTALL_DIR=$(get_config_value "installation" "install_dir")
-
-
+GIT_SERVICE=$(get_config_value "GIT Settings" "service")
+GIT_API_TOKEN=$(get_config_value "GIT Settings" "api_token")
+REPO_OWNER=$(get_config_value "GIT Settings" "repo_owner")
+REPO_NAME=$(get_config_value "GIT Settings" "repo_name")
+DOMAIN=$(get_config_value "Server Settings" "domain")
+USER=$(get_config_value "Server Settings" "user")
+PORT=$(get_config_value "Server Settings" "port")
+ENABLE_IPV6=$(get_config_value "Server Settings" "enable_ipv6")
+INSTALL_DIR=$(get_config_value "Installation Settings" "install_dir")
 
 # Greeting
 echo "Welcome to the CLI Magic Bootstraps setup script!"
@@ -29,56 +27,54 @@ echo "This script will install all necessary components and deploy your app."
 echo "Press Enter to continue..."
 read
 
-# This script is intedned to be executed without interaction beyond this point; it will setup the environment for our CLI Magic Bootstrap app.
+# This script is intended to be executed without interaction beyond this point; it will setup the environment for our CLI Magic Bootstrap app.
 
 # Update and upgrade the system
-echo Installing necessary tools and packages for cli-magic-bootstraps to work (1/3)
+echo "Installing necessary tools and packages for cli-magic-bootstraps to work (1/3)"
 sudo apt update # && sudo apt upgrade -y
 
 # Install Python and Git
-echo Installing necessary tools and packages for cli-magic-bootstraps to work (2/3)
+echo "Installing necessary tools and packages for cli-magic-bootstraps to work (2/3)"
 sudo apt install -y curl wget python3 python3-pip git
 
 # Install required Python packages
-echo Installing necessary tools and packages for cli-magic-bootstraps to work (3/3)
+echo "Installing necessary tools and packages for cli-magic-bootstraps to work (3/3)"
 pip3 install fuzzywuzzy python-Levenshtein requests Flask gunicorn
 echo && echo
 
-
 # [!] IMPORTANT
 # Don't forget you need to clone this repo to your own account, modify the necessary details for GitHub below, and the API details in the app's python file.
-# After this, the following will install the app to the /usr/local/bin folder,  inside that folder will be cli-magic-bootstrap, and inside that, the app's files.
+# After this, the following will install the app to the /usr/local/bin folder, inside that folder will be cli-magic-bootstrap, and inside that, the app's files.
 # It's best that you inspect all files and you are aware of what code is executed.
 
-
-echo Cloning repo, be sure you made the necessary modifications or the script will fail here
+echo "Cloning repo, be sure you made the necessary modifications or the script will fail here"
 
 # Clone your GitHub repository
-git clone https://github.com/your_github_username/your_repo_name.git
+git clone https://github.com/$REPO_OWNER/$REPO_NAME.git
 
 # Ensure universal all lowercase name for dir, then cd into it
 find . -iname "cli-magic-bootstrap" -exec mv {} cli-magic-bootstrap \;
 cd cli-magic-bootstrap
 
 # Create a systemd service file for the app
-echo Creating magic_bootstraps service file
-sudo bash -c 'cat <<EOL > /etc/systemd/system/magic_bootstraps.service
+echo "Creating magic_bootstraps service file"
+sudo bash -c "cat <<EOL > /etc/systemd/system/magic_bootstraps.service
 [Unit]
 Description=Magic Bootstraps Service
 After=network.target
 
 [Service]
 User=$USER
-WorkingDirectory=/usr/local/bin/cli-magic-bootstrap
-ExecStart=/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+WorkingDirectory=$INSTALL_DIR
+ExecStart=$INSTALL_DIR/gunicorn -w 4 -b 0.0.0.0:$PORT app:app
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
-EOL'
+EOL"
 
 echo
-echo Creating NGINX file for our app
+echo "Creating NGINX file for our app"
 
 # Create Nginx configuration
 sudo bash -c "cat <<EOL > /etc/nginx/sites-available/$DOMAIN
@@ -114,6 +110,11 @@ server {
 EOL"
 fi
 
+# Enable the Nginx configuration
+sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
 # Reload systemd and start the service
 echo "Enabling magic_bootstraps.service"
 sudo systemctl daemon-reload
@@ -125,9 +126,9 @@ sudo systemctl start magic_bootstraps.service
 echo "Reloading nginx"
 sudo systemctl restart nginx
 echo
-echo Script has finished. Try pointing your browser now to localhost:5000 or 127.0.0.1:5000
-echo You will also need to add ports to your firewall policy before you can test public outside access
-echo 
-echo "ress any key to exit..."
+echo "Script has finished. Try pointing your browser to localhost:$PORT or 127.0.0.1:$PORT."
+echo "You will also need to add ports to your firewall policy before you can test public outside access."
+echo
+echo "Press any key to exit..."
 read
 exit
