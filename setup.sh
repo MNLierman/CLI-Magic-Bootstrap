@@ -1,5 +1,24 @@
 #!/bin/bash
 
+# Function to display usage
+usage() {
+    echo "Usage: $0 [-y]"
+    echo "  -y    Bypass confirmation prompt"
+    exit 1
+}
+
+# Parse command-line options
+while getopts ":y" opt; do
+    case ${opt} in
+        y )
+            AUTO_CONFIRM=true
+            ;;
+        \? )
+            usage
+            ;;
+    esac
+done
+
 # Function to read values from settings.conf
 function get_config_value() {
     local section=$1
@@ -27,7 +46,20 @@ echo "This script will install all necessary components and deploy your app."
 echo "Press Enter to continue..."
 read
 
-# This script is intended to be executed without interaction beyond this point; it will setup the environment for our CLI Magic Bootstrap app.
+# Simulate package installation
+echo "Simulating package installation..."
+sudo apt-get install -y curl wget python3 python3-pip git -s
+
+# Confirmation prompt
+if [ -z "$AUTO_CONFIRM" ]; then
+    echo "The above packages will be installed."
+    read -p "Do you want to proceed with the actual installation? (y/n): " choice
+    case "$choice" in 
+      y|Y ) echo "Proceeding with installation...";;
+      n|N ) echo "Installation aborted."; exit 1;;
+      * ) echo "Invalid choice. Installation aborted."; exit 1;;
+    esac
+fi
 
 # Update and upgrade the system
 echo "Installing necessary tools and packages for cli-magic-bootstraps to work (1/3)"
@@ -129,6 +161,7 @@ echo
 echo "Script has finished. Try pointing your browser to localhost:$PORT or 127.0.0.1:$PORT."
 echo "You will also need to add ports to your firewall policy before you can test public outside access."
 echo
+echo "Next time, you can bypass this confirmation by running the script with the -y flag."
 echo "Press any key to exit..."
 read
 exit
