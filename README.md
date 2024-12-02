@@ -1,6 +1,10 @@
 # Magic Bootstraps Repo
 
-Welcome to the Magic Bootstraps repo! This project showcases @MNLierman's latest adventures in script auto-selection. The goal is to make running scripts on various systems as seamless as possible using a simple curl or iex command. Below, you'll find detailed information on how this works, the dream goal, and how you can contribute.
+Welcome to the Magic Bootstraps repo! This project showcases @MNLierman's latest adventures in script magic auto-selection. The goal is to make running scripts on various systems as seamless as possible using a simple command such as:
+  <br><br>**```curl yourname.tld/win-ins | iex```**  OR  **```curl yourname.tld/lin-ins | sh```** <br> <br>
+Either of these commands would find and **auto-complete** something like **```win-install-software.ps1```**, pull this script, and run it. This app gives you the ability to host your favorite scripts on GitHub and easily run them without a USB thumbdrive like you'd traditionally have to have. Sure, there are a few repos on here that use something of a 404 approach to find a script, but I don't see this as very versatile or easy to work with. Hosting this yourself is not that hard, as most of the heavy lift is done by GITHUB.
+
+**Below, you'll find detailed information on how this works and how you can contribute.**
 
 ## Dream Goal
 
