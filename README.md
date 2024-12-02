@@ -6,9 +6,9 @@ Either of these commands would find and **auto-complete** something like **```wi
 
 **Below, you'll find detailed information on how this works and how you can contribute.**
 
-## Dream Goal
+## Coding With A Purpose
 
-The ultimate aim of this project is to create a robust and user-friendly system where users can easily run scripts on their devices by simply using a curl or iex command. The magic lies in the auto-selection process, which attempts to determine the correct script based on the command you provide. This system is designed to save time and reduce errors, making it easier for anyone to manage and automate tasks on their devices.
+The ultimate aim of this project is to create a robust and user-friendly system where users/admins can easily run scripts on endpoint devices by simply using a curl or iex command. The simplicity of this allows you to easily share simple URLs with necessary people (even end users). The magic lies in the auto-selection process, which attempts to determine the correct script based on the command you provide. This system is designed to save time and reduce errors, making it easier for anyone to manage and automate tasks on their devices.
 
 ## How It Works
 
