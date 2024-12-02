@@ -81,6 +81,10 @@ echo && echo
 
 echo "Cloning repo, be sure you made the necessary modifications or the script will fail here"
 
+# In case we need to clean old installation
+#rm -rf /home/USERNAME/cli-magic-bootstraps
+#rm -rf /usr/local.bin/cli-magic-bootstraps
+
 # Clone your GitHub repository
 git clone https://github.com/$REPO_OWNER/$REPO_NAME.git
 
@@ -109,7 +113,7 @@ echo
 echo "Creating NGINX file for our app"
 
 # Create Nginx configuration
-sudo bash -c "cat <<EOL > /etc/nginx/sites-available/$DOMAIN
+sudo bash -c "cat <<EOL > /etc/nginx/config.d/$DOMAIN
 server {
     listen 80;
     server_name $DOMAIN;
@@ -126,7 +130,8 @@ EOL"
 
 # Enable IPv6 if specified
 if [ "$ENABLE_IPV6" = true ]; then
-    sudo bash -c "cat <<EOL >> /etc/nginx/sites-available/$DOMAIN
+    #sudo bash -c "cat <<EOL >> /etc/nginx/sites-available/$DOMAIN
+    sudo bash -c "cat <<EOL >> /etc/nginx/config./$DOMAIN
 server {
     listen [::]:80;
     server_name $DOMAIN;
@@ -143,7 +148,7 @@ EOL"
 fi
 
 # Enable the Nginx configuration
-sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/config.d
 sudo nginx -t
 sudo systemctl restart nginx
 
