@@ -25,6 +25,11 @@ To use the magic CLI part, you'll need your own server. Here's what you need to 
 
 1. **Fuzzy Python Script**: The server runs a fuzzy Python script that helps in auto-selecting the correct script.
 2. **GitHub API Key**: You'll need a GitHub API key to obtain a directory listing of your scripts for the specified directory.
+3. **Clone Your Own Copy**: You will need to clone your own copy of this repo to uplaod your own scripts, etc. If you want, you can make your repo rrivate and then,
+4. **Pull & Modify ```settings.conf```**, OR, modify it from within your private repo.
+5. **Pull & Run ```setup.sh```**: This will prepare your environment for hosting the CLI Magic Bootstraps app.
+6. **Test your app**: While I don't have any specific commands you can run at the moment, I will add a couple of test scripts in the future.
+7. **Update your scripts and start using the app!**
 
 ### Directory Matching
 
