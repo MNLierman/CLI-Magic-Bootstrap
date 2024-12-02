@@ -31,6 +31,12 @@ To use the magic CLI part, you'll need your own server. Here's what you need to 
 6. **Test your app**: While I don't have any specific commands you can run at the moment, I will add a couple of test scripts in the future.
 7. **Update your scripts and start using the app!**
 
+This will pull settings, wait for you to edit it, and then pulldown the setup.sh to setup the environment and app:
+```curl -O https://your-repo-url/settings.conf && nano settings.conf && curl -O https://your-repo-url/setup.sh && chmod +x setup.sh && ./setup.sh```
+
+Pull setup:
+curl -O https://your-repo-url/setup.sh && chmod +x setup.sh && ./setup.sh
+
 ### Directory Matching
 
 The directory part of the command must always match and will never be magic. For example, if your targeted script is located at `name.domain/windows/install-software.cmd`, you must get the URL correctly up to about `install-s`, depending on if you have other scripts in the `windows` directory that start with `install`.
