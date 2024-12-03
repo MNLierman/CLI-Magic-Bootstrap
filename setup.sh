@@ -94,6 +94,7 @@ cd cli-magic-bootstrap
 
 # Create a systemd service file for the app
 echo "Creating magic_bootstraps service file"
+rm -rf /etc/systemd/system/magic_bootstraps.service
 sudo bash -c "cat <<EOL > /etc/systemd/system/magic_bootstraps.service
 [Unit]
 Description=Magic Bootstraps Service
@@ -130,8 +131,8 @@ EOL"
 
 # Enable IPv6 if specified
 if [ "$ENABLE_IPV6" = true ]; then
-    #sudo bash -c "cat <<EOL >> /etc/nginx/sites-available/$DOMAIN
-    sudo bash -c "cat <<EOL >> /etc/nginx/config./$DOMAIN
+    #sudo bash -c "cat <<EOL >> /etc/nginx/config.d/$DOMAIN
+    sudo bash -c "cat <<EOL >> /etc/nginx/config.d/$DOMAIN
 server {
     listen [::]:80;
     server_name $DOMAIN;
@@ -148,7 +149,7 @@ EOL"
 fi
 
 # Enable the Nginx configuration
-sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/config.d
+sudo ln -s /etc/nginx/config.d/$DOMAIN /etc/nginx/config.d
 sudo nginx -t
 sudo systemctl restart nginx
 
