@@ -4,6 +4,8 @@ Welcome to the Magic Bootstraps repo! This project showcases @MNLierman's latest
   <br><br>**```curl yourname.tld/win-ins | iex```**  OR  **```curl yourname.tld/lin-ins | sh```** <br> <br>
 Either of these commands would find and **auto-complete** something like **```win-install-software.ps1```**, pull this script, and run it. This app gives you the ability to host your favorite scripts on GitHub and easily run them without a USB thumbdrive like you'd traditionally have to have. Sure, there are a few repos on here that use something of a 404 approach to find a script, but I don't see this as very versatile or easy to work with. Hosting this yourself is not that hard, as most of the heavy lift is done by GITHUB.
 
+**Work in Progress / May Be Typos:** While I use this project and have tested it thoroughly, there may be typos, either in the comments, in the ReadMe.md pages, or elsewhere. Please let me know if there are bugs, things not working, or if you need help / are having trouble getting this to work, and I will attempt to provide help.
+
 **Below, you'll find detailed information on how this works and how you can contribute.**
 
 ## Coding With A Purpose
@@ -25,7 +27,7 @@ To use the magic CLI part, you'll need your own server. Here's what you need to 
 
 1. **Fuzzy Python Script**: The server runs a fuzzy Python script that helps in auto-selecting the correct script.
 2. **GitHub API Key**: You'll need a GitHub API key to obtain a directory listing of your scripts for the specified directory.
-3. **Clone Your Own Copy**: You will need to clone your own copy of this repo to uplaod your own scripts, etc. If you want, you can make your repo rrivate and then,
+3. **Clone Your Own Copy**: You will need to clone your own copy of this repo to upload your own scripts, etc. If you want, you can make your repo private.
 4. **Pull & Modify ```settings.conf```**, OR, modify it from within your private repo.
 5. **Pull & Run ```setup.sh```**: This will prepare your environment for hosting the CLI Magic Bootstraps app.
 6. **Test your app**: While I don't have any specific commands you can run at the moment, I will add a couple of test scripts in the future.
